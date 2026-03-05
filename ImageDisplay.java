@@ -340,8 +340,6 @@ public class ImageDisplay {
             createDCT(tempPath, encodedImage, blockSizeMap, M, mid);
             double zippedBpp = zippedBpp(tempPath, encodedImage);
 
-            System.out.println(zippedBpp);
-
             if (zippedBpp <= B) {
                 Q = mid;
                 high = mid - 1;
