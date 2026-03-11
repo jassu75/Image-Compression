@@ -332,7 +332,7 @@ public class ImageDisplay {
     private int computeQ(BufferedImage img, String path, int M, double B, int[][] blockSizeMap) {
 
         String tempPath = path + ".temp.DCT";
-        int low = 0, high = 15, Q = high;
+        int low = 0, high = 30, Q = high;
 
         while (low <= high) {
             int mid = (low + high) / 2;
