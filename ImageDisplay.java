@@ -512,12 +512,12 @@ public class ImageDisplay {
             }
         });
 
-        frame.setFocusable(true);
-        frame.requestFocusInWindow();
-
         frame.pack();
         frame.setLocationRelativeTo(null);
         frame.setVisible(true);
+
+        frame.setFocusable(true);
+        frame.requestFocusInWindow();
     }
 
     public static void main(String[] args) {
