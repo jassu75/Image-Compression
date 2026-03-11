@@ -12,7 +12,7 @@ java ImageDisplay.java <img>.rgb <M> <Q> <B>
 java ImageDisplay.java img.rgb 2 -1 1.5
 ```
 
-> **Note:** When `M=2`, it takes 1–2 minutes for the output to appear. It will show — please wait.
+> **Note:** When `M=2`, it takes 1–2 minutes for the output to appear. It will show. Please wait.
 
 ---
 
@@ -22,7 +22,7 @@ java ImageDisplay.java img.rgb 2 -1 1.5
 
 The idea is simple: if the variance within a block is high, that region is detailed and needs smaller blocks. If variance is low, a larger block will suffice.
 
-Rather than using a fixed threshold, the threshold is computed dynamically for each image. I felt that a fixed threshold is unreliable it depends on the image content:
+Rather than using a fixed threshold, the threshold is computed dynamically for each image. I felt that a fixed threshold is unreliable - it depends on the image content:
 
 - Scan the image in 32×32 tiles and compute the luma variance of each tile.
 - Sort all variances in ascending order and take the **70th percentile** as the threshold.
@@ -52,13 +52,17 @@ Recursion continues until the block's variance falls below the threshold or the 
 
 ---
 
-### 3) Auto-Compute Q (when `Q = -1`)
+### 3) Why this works
+
+I am being greedy here - I initially start of with block size 32. If variance exceeds the threshold, then only I divide it recursively till variance is lesser than threshhold or block cannot be further divided. This favors the largest blocks possible improving compression without compromising quality.
+
+### 4) Auto-Compute Q (when `Q = -1`)
 
 To find the best value of Q for a target bitrate `B`, the compression is simulated via binary search:
 
 - Search over Q in **[0, 30]**.
 - For each candidate Q, encode the image, write a temporary `.DCT` file, gzip-compress it in memory, and check whether the resulting bits-per-pixel meets the target.
-- Adjust the search range accordingly — if `bpp <= B`, try a lower Q (better quality); otherwise try a higher Q (more compression).
+- Adjust the search range accordingly. If `bpp <= B`, try a lower Q (better quality); otherwise try a higher Q (more compression).
 
 ```
 binary search Q in [0, 30]:
